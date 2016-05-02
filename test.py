@@ -2,6 +2,13 @@ import socket
 import struct
 import binascii
 
+receiver = socket.socket(socket.AF_PACKET, socket.SOCK_RAW, socket.htons(0x0806))
+receiver.bind((network_interface, 0))
+        
+while TRUE:
+        packets = receiver.recvfrom(2048)
+
+
 rawSocket = socket.socket(socket.AF_PACKET, socket.SOCK_RAW, socket.htons(0x0003))
 
 while True:

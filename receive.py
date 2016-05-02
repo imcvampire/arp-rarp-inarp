@@ -1,6 +1,8 @@
 import socket
 import struct
 import binascii
+from binascii import hexlify, unhexlify
+import netifaces as ni
 
 rawSocket = socket.socket(socket.AF_PACKET, socket.SOCK_RAW, socket.htons(0x0003))
 
@@ -16,7 +18,7 @@ while True:
 
     # skip non-ARP packets
     ethertype = ethernet_detailed[2]
-    if ethertype != '\x08\x06':
+    if ethertype != unhexlify("0806"):
         continue
 
     print("****************_ETHERNET_FRAME_****************")
