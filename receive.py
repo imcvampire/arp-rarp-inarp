@@ -1,7 +1,7 @@
 import socket
 import struct
 import binascii
-from binascii import hexlify, unhexlify
+from binascii import unhexlify
 import netifaces as ni
 
 rawSocket = socket.socket(socket.AF_PACKET, socket.SOCK_RAW, socket.htons(0x0003))
