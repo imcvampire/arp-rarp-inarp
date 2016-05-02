@@ -121,7 +121,6 @@ def CreateRArpPacket(sender_mac_address, target_mac_address):
 	
 	return packet
 	
-<<<<<<< HEAD
 def CreateInArpPacket(sender_mac_address, target_mac_address):
 
 	#Ethernet Layer
@@ -144,9 +143,6 @@ def CreateInArpPacket(sender_mac_address, target_mac_address):
 	packet += socket.inet_aton("0.0.0.0")
 	
 	return packet
-=======
-	
->>>>>>> 0fdcdec722c4679529a8b2d89dc0e928a2c571df
 
 def Decode(packet):
 	structure = {}
@@ -197,11 +193,6 @@ def SendRArp(target_mac_address):
 					for ip in InterfaceIpAddresses(interface):
 							if ip is None:
 									continue
-<<<<<<< HEAD
-							packet = CreateRArpPacket(mac, target_mac_address)							
-=======
 							packet = CreateRArpPacket(mac, target_mac_address)
-							
->>>>>>> 0fdcdec722c4679529a8b2d89dc0e928a2c571df
 							SendRawPacket(interface, packet)
 	return
