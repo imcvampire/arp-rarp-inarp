@@ -3,6 +3,8 @@ import struct
 import binascii
 import netifaces as ni
 
+import send
+
 rawSocket = socket.socket(socket.AF_PACKET, socket.SOCK_RAW, socket.htons(0x0003))
 
 while True:
@@ -35,4 +37,13 @@ while True:
     print("Dest MAC:        ", binascii.hexlify(arp_detailed[7]))
     print("Dest IP:         ", socket.inet_ntoa(arp_detailed[8]))
     print("*************************************************\n")
+    
+    if binascii.hexlify(arp_detailed[4]) == "0001":
+        for interface in NetworkInterfaces():
+            if mac in InterfaceMacAddresses(interface) == binascii.hexlify(arp_detailed[7]):
+                packet = CreateArpPacket()
+                SendRawPacket(interface, packet)
+    elif binascii.hexlify(arp_detailed[4]) == "0003":
+    
+    elif binascii.hexlify(arp_detailed[4]) == "0008":
 

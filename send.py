@@ -144,16 +144,6 @@ def CreateInArpPacket(sender_mac_address, target_mac_address):
 	
 	return packet
 
-def Decode(packet):
-	structure = {}
-	structure.update( {"oper": packet[20:22]} )
-	structure.update( {"sha": packet[22:28]} )
-	structure.update( {"spa": packet[28:32]} )
-	structure.update( {"tha": packet[32:38]} )
-	structure.update( {"tpa": packet[38:42]} )
-
-	return structure
-
 def SendRawPacket(network_interface, packet):
 	if network_interface in NetworkInterfaces():
 			pass
@@ -194,5 +184,21 @@ def SendRArp(target_mac_address):
 							if ip is None:
 									continue
 							packet = CreateRArpPacket(mac, target_mac_address)
+							SendRawPacket(interface, packet)
+	return
+	
+def SendInArp(target_mac_address):
+	if NetworkInterfaces() is None:
+			return
+	for interface in NetworkInterfaces():
+			if InterfaceMacAddresses(interface) is None or interface[0:2] == 'lo':
+					continue
+			for mac in InterfaceMacAddresses(interface):
+					if InterfaceIpAddresses(interface) is None:
+							continue
+					for ip in InterfaceIpAddresses(interface):
+							if ip is None:
+									continue
+							packet = CreateInArpPacket(mac, target_mac_address)
 							SendRawPacket(interface, packet)
 	return
