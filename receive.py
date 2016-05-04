@@ -40,7 +40,7 @@ while True:
 	
 	if arp_detailed[4] == binascii.unhexlify("0001"):
 		for interface in send.NetworkInterfaces():
-				if InterfaceMacAddresses(interface) is None or interface[0:2] == 'lo':
+				if send.InterfaceMacAddresses(interface) is None or interface[0:2] == 'lo':
 					continue
 				for ip in send.InterfaceIpAddresses(interface):
 					if ip == socket.inet_ntoa(arp_detailed[8]):
