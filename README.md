@@ -1,6 +1,8 @@
 # it3080-mmt
-Bài tập lớn 
 
-it3080
+Computer networking project in class IT3080 in HUST
 
-Mạng máy tính
+---------------------------------------------------
+
+Bài tập lớn học phần it3080 - Mạng máy tính
+
