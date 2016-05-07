@@ -43,6 +43,7 @@ class Opcode:
 def NetworkInterfaces():
 	return ni.interfaces()
 
+
 def InterfaceMacAddresses(network_interface):
 	mac_addresses = []
 	try:
@@ -52,13 +53,28 @@ def InterfaceMacAddresses(network_interface):
 		pass
 	return mac_addresses
 
-def InterfaceIpAddresses(network_interface, protocol_type): # ni.AF_INET
+
+def InterfaceIpv4Addresses(network_interface): # ni.AF_INET
 	ip_addresses = []
 	try:
-			for ip_info in ni.ifaddresses(network_interface)[protocol_type]:
-					ip_addresses.append(ip_info['addr'])
+		for ip_info in ni.ifaddresses(network_interface)[ni.AF_INET]:
+			ip_addresses.append(ip_info['addr'])
+	
 	except:
-			pass
+		pass
+	
+	return ip_addresses
+
+
+def InterfaceIpv6Addresses(network_interface):
+	ip_addresses = []
+	try:
+		for ip_info in ni.ifaddresses(network_interface)[ni.AF_INET6]:
+			ip_addresses.append(ip_info['addr'])
+			
+	except:
+		pass
+	
 	return ip_addresses
 
 
@@ -114,6 +130,7 @@ def CreateArpReplyPacket(sender_mac_address, sender_ip_address, target_mac_addre
 
 # RARP
 def CreateRArapRequestPacket(sender_mac_address, sender_ip_address, target_mac_address, target_ip_address):
+	
 	# Ethernet Layer
 	packet  = bytes.fromhex("ff ff ff ff ff ff")
 	packet += bytes.fromhex(sender_mac_address.replace(":", " "))
@@ -133,7 +150,8 @@ def CreateRArapRequestPacket(sender_mac_address, sender_ip_address, target_mac_a
 	
 	return packet
 
-def CreateRArpReplyPacket():
+def CreateRArpReplyPacket(sender_mac_address, sender_ip_address, target_mac_address, target_ip_address):
+
 	# Ethernet Layer
 	packet = bytes.fromhex(target_mac_address.replace(":", ""))
 	packet += bytes.fromhex(sender_mac_address.replace(":", " "))
@@ -156,11 +174,8 @@ def CreateRArpReplyPacket():
 
 
 # InARP
-#
-#
-#
-#
-def CreateInArpRequestPacket():
+def CreateInArpRequestPacket(sender_mac_address, sender_ip_address, target_mac_address, target_ip_address):
+
 	# Ethernet Layer
 	packet = bytes.fromhex(target_mac_address.replace(":", ""))
 	packet += bytes.fromhex(sender_mac_address.replace(":", " "))
@@ -171,7 +186,7 @@ def CreateInArpRequestPacket():
 	packet += ProtocolType.IPv4
 	packet += HardwareSize.MAC
 	packet += ProtocolSize.IPv4
-	packet += Opcode.RArpReply
+	packet += Opcode.RArpRequest
 	
 	packet += bytes.fromhex(sender_mac_address.replace(":", " "))
 	packet += socket.inet_aton(sender_ip_address)
@@ -180,7 +195,8 @@ def CreateInArpRequestPacket():
 	
 	return
 	
-def CreateInArpReplyPacket():
+def CreateInArpReplyPacket(sender_mac_address, sender_ip_address, target_mac_address, target_ip_address):
+
 	# Ethernet Layer
 	packet = bytes.fromhex(target_mac_address.replace(":", ""))
 	packet += bytes.fromhex(sender_mac_address.replace(":", " "))
@@ -218,33 +234,9 @@ def SendRawPacket(network_interface, packet):
 	
 	sender.send(packet)
 
-def Send(opcode, target_mac_address, target_ip_address):
-	if NetworkInterfaces() is None:
-			return
-	for interface in NetworkInterfaces():
-			if InterfaceMacAddresses(interface) is None or interface[0:2] == 'lo':
-					continue
-			for mac in InterfaceMacAddresses(interface):
-					if InterfaceIpAddresses(interface) is None:
-							continue
-							
-					if opcode == 1 or opcode == 2:
-						for ip in InterfaceIpAddresses(interface):
-							if ip is None:
-									continue
-							packet = CreateArpPacket(opcode, mac, ip, target_mac_address, target_ip_address)
-							SendRawPacket(interface, packet)
-					elif opcode == 3 or opcode == 4:
-						packet = CreateArpPacket(opcode, mac, "0.0.0.0", target_mac_address, "0.0.0.0")
-						SendRawPacket(interface, packet)
-					elif opcode == 8 or opcode == 9:
-						return
-						
-	return
 
 
-
-# Send Arp
+# Send ARP packet
 #
 #
 #
@@ -266,16 +258,16 @@ def SendArpRequestPacket(target_ip_address):
 			#
 			interface_mac_addresses = InterfaceMacAddresses(network_interface)
 			
-			if interface_mac_address is not None:
+			if interface_mac_addresses is not None:
 				for interface_mac_address in interface_mac_addresses:
 					
 					# Interface IP Address
 					#
 					#
 					#
-					interface_ip_addresses = InterfaceIpAddresses(interface, ni.AF_INET)
+					interface_ip_addresses = InterfaceIpv4Addresses(network_interface)
 					
-					if interface_ip_address is not None:
+					if interface_ip_addresses is not None:
 						for interface_ip_address in interface_ip_addresses:
 							
 							# Send ARP Packet
@@ -306,32 +298,33 @@ def SendRArpRequestPacket():
 			#
 			interface_mac_addresses = InterfaceMacAddresses(network_interface)
 			
-			if interface_mac_address is not None:
+			if interface_mac_addresses is not None:
 				for interface_mac_address in interface_mac_addresses:
 					
 					# Interface IP Address
 					#
 					#
 					#
-					interface_ip_addresses = InterfaceIpAddresses(interface)
 					
-					if interface_ip_address is not None:
+					# Ipv4
+					interface_ip_addresses = InterfaceIpv4Addresses(network_interface)
+					
+					if interface_ip_addresses is not None:
 						for interface_ip_address in interface_ip_addresses:
 							
-							# Send ARP Packet
+							# Send RARP request packet
 							#
 							#
 							#
-							packet = CreateRArpRequestPacket(interface_mac_address, interface_ip_address, "ff ff ff ff ff ff", target_ip_address)
+							packet = CreateRArpRequestPacket(interface_mac_address, "0.0.0.0", "ff ff ff ff ff ff", "0.0.0.0")
 							
 							SendRawPacket(network_interface, packet)
 							
-	return	
 	
-def SendRArp(target_mac_address):
-	Send(3, target_mac_address, "0.0.0.0")
 	return
 	
-def SendInArp(target_mac_address):
+	
+def SendInArpRequestPacket(target_mac_address):
+
 	return
 	
