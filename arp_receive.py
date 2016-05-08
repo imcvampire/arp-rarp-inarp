@@ -59,10 +59,10 @@ if __name__ == "__main__":
 				hardware_size = binascii.hexlify(arp_layer[2]).decode('ascii')
 				protocol_size = binascii.hexlify(arp_layer[3]).decode('ascii')
 				opcode        = binascii.hexlify(arp_layer[4]).decode('ascii')
-				source_mac    = "%x:%x:%x:%x:%x:%x" % struct.unpack("BBBBBB",ethernet_layer[0])
-				source_ip     = socket.inet_ntoa(arp_layer[6])
-				dest_mac      = "%x:%x:%x:%x:%x:%x" % struct.unpack("BBBBBB",ethernet_layer[0])
-				dest_ip       = socket.inet_ntoa(arp_layer[8])
+				sender_mac    = "%x:%x:%x:%x:%x:%x" % struct.unpack("BBBBBB",ethernet_layer[0])
+				sender_ip     = socket.inet_ntoa(arp_layer[6])
+				target_mac    = "%x:%x:%x:%x:%x:%x" % struct.unpack("BBBBBB",ethernet_layer[0])
+				target_ip     = socket.inet_ntoa(arp_layer[8])
 				
 				
 				# Packet Information
@@ -89,16 +89,16 @@ if __name__ == "__main__":
 				print("Hardware size   :", hardware_size)
 				print("Protocol size   :", protocol_size)
 				print("Opcode          :", opcode)
-				print("Source MAC      :", source_mac)
-				print("Source IP       :", source_ip)
-				print("Dest MAC        :", dest_mac)
-				print("Dest IP         :", dest_ip)
+				print("Sender MAC      :", sender_mac)
+				print("Sender IP       :", sender_ip)
+				print("Target MAC      :", target_mac)
+				print("Target IP       :", target_ip)
 				
 				print("*************************************************")
 				
 				print()
 				
-				# if ethernet_type == "0806":
+				# if ethernet_type == "0806" or ethernet_type == "8035":
 			
 		except:
 			pass
