@@ -241,7 +241,7 @@ def SendRawPacket(network_interface, packet):
 #
 #
 #
-def SendArpRequestPacket(target_ip_address = None):
+def SendArp(target_ip_address = None):
 
 	# Network interface
 	#
@@ -281,7 +281,7 @@ def SendArpRequestPacket(target_ip_address = None):
 	return
 	
 	
-def SendRArpRequestPacket(target_mac_address):
+def SendRArp(target_mac_address):
 
 	# Network interface
 	#
@@ -326,7 +326,7 @@ def SendRArpRequestPacket(target_mac_address):
 	return
 	
 	
-def SendInArpRequestPacket(target_mac_address):
+def SendInArp(target_mac_address):
 
 	# Network interface
 	#
