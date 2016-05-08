@@ -11,7 +11,6 @@ import binascii
 #
 class Type:
 	Arp = bytes.fromhex("0806")
-	RArp = bytes.fromhex("8035")
 
 class HardwareType:
 	Ethernet = bytes.fromhex("0001")
@@ -135,7 +134,7 @@ def CreateRArpRequestPacket(sender_mac_address, sender_ip_address, target_mac_ad
 	# Ethernet Layer
 	packet  = bytes.fromhex("ff ff ff ff ff ff")
 	packet += bytes.fromhex(sender_mac_address.replace(":", " "))
-	packet += Type.RArp
+	packet += Type.Arp
 	
 	# Arp Layer
 	packet += HardwareType.Ethernet
@@ -156,7 +155,7 @@ def CreateRArpReplyPacket(sender_mac_address, sender_ip_address, target_mac_addr
 	# Ethernet Layer
 	packet = bytes.fromhex(target_mac_address.replace(":", ""))
 	packet += bytes.fromhex(sender_mac_address.replace(":", " "))
-	packet += Type.RArp
+	packet += Type.Arp
 	
 	# Arp Layer
 	packet += HardwareType.Ethernet
