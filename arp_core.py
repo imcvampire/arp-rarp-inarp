@@ -15,6 +15,7 @@ class Type:
 
 class HardwareType:
 	Ethernet = bytes.fromhex("0001")
+	FrameRelay = bytes.fromhex("000f")
 
 class ProtocolType:
 	IPv4 = bytes.fromhex("0800")
@@ -328,5 +329,45 @@ def SendRArpRequestPacket(target_mac_address):
 	
 def SendInArpRequestPacket(target_mac_address):
 
+	# Network interface
+	#
+	#
+	#
+	network_interfaces = NetworkInterfaces()
+	
+	if network_interfaces is not None:
+		for network_interface in network_interfaces:
+			
+			# Interface MAC Address
+			#
+			#
+			#
+			interface_mac_addresses = InterfaceMacAddresses(network_interface)
+			
+			if interface_mac_addresses is not None:
+				for interface_mac_address in interface_mac_addresses:
+					
+					# Interface IP Address
+					#
+					#
+					#
+					interface_ip_addresses = InterfaceIpv4Addresses(network_interface)
+					
+					if interface_ip_addresses is not None:
+						for interface_ip_address in interface_ip_addresses:
+							
+							# Send RARP request packet
+							#
+							#
+							#
+							if target_mac_address is None:
+								packet = CreateInArpRequestPacket(interface_mac_address, "0.0.0.0", interface_mac_address, "0.0.0.0")
+								
+							else:
+								packet = CreateInArpRequestPacket(interface_mac_address, "0.0.0.0", target_mac_address, "0.0.0.0")
+							
+							SendRawPacket(network_interface, packet)
+							
+	
 	return
 	

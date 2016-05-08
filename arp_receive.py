@@ -34,45 +34,71 @@ if __name__ == "__main__":
 			#
 			#
 			#
-			ethernet_type = ethernet_layer[2]
-			if ethernet_type != binascii.unhexlify("0806"):
-				continue
-			
-			# Unpack ARP header
-			#
-			#
-			#
-			arp_header = packet[0][14:42]
-			arp_layer = struct.unpack("2s2s1s1s2s6s4s6s4s", arp_header)
-			
-			# Decode packet
-			#
-			#
-			#
-			print()
-			
-			count = count + 1
-			print("Packet {0}".format(count))
-			print()
-			
-			print("****************_ETHERNET_FRAME_****************")
-			print("Dest MAC        :", "%x:%x:%x:%x:%x:%x" % struct.unpack("BBBBBB",ethernet_layer[0]))
-			print("Source MAC      :", "%x:%x:%x:%x:%x:%x" % struct.unpack("BBBBBB",ethernet_layer[0]))
-			print("Type            :", binascii.hexlify(ethernet_type).decode('ascii'))
-			print("******************_ARP_HEADER_******************")
-			print("Hardware type   :", binascii.hexlify(arp_layer[0]).decode('ascii'))
-			print("Protocol type   :", binascii.hexlify(arp_layer[1]).decode('ascii'))
-			print("Hardware size   :", binascii.hexlify(arp_layer[2]).decode('ascii'))
-			print("Protocol size   :", binascii.hexlify(arp_layer[3]).decode('ascii'))
-			print("Opcode          :", binascii.hexlify(arp_layer[4]).decode('ascii'))
-			print("Source MAC      :", "%x:%x:%x:%x:%x:%x" % struct.unpack("BBBBBB",ethernet_layer[0]))
-			print("Source IP       :", socket.inet_ntoa(arp_layer[6]))
-			print("Dest MAC        :", "%x:%x:%x:%x:%x:%x" % struct.unpack("BBBBBB",ethernet_layer[0]))
-			print("Dest IP         :", socket.inet_ntoa(arp_layer[8]))
-			print("*************************************************")
-			
-			print()
-			
+			ethernet_type = binascii.hexlify(ethernet_layer[2]).decode('ascii')
+			if ethernet_type == "0806" or ethernet_type == "8035":
+				
+				# Unpack ARP header
+				#
+				#
+				#
+				arp_header = packet[0][14:42]
+				arp_layer = struct.unpack("2s2s1s1s2s6s4s6s4s", arp_header)
+				
+				# Decode packet
+				#
+				#
+				#
+				
+				# Ethernet Layer
+				dest_mac   = "%x:%x:%x:%x:%x:%x" % struct.unpack("BBBBBB", ethernet_layer[0])
+				source_mac = "%x:%x:%x:%x:%x:%x" % struct.unpack("BBBBBB", ethernet_layer[1])
+				
+				# ARP Layer
+				hardware_type = binascii.hexlify(arp_layer[0]).decode('ascii')
+				protocol_type = binascii.hexlify(arp_layer[1]).decode('ascii')
+				hardware_size = binascii.hexlify(arp_layer[2]).decode('ascii')
+				protocol_size = binascii.hexlify(arp_layer[3]).decode('ascii')
+				opcode        = binascii.hexlify(arp_layer[4]).decode('ascii')
+				source_mac    = "%x:%x:%x:%x:%x:%x" % struct.unpack("BBBBBB",ethernet_layer[0])
+				source_ip     = socket.inet_ntoa(arp_layer[6])
+				dest_mac      = "%x:%x:%x:%x:%x:%x" % struct.unpack("BBBBBB",ethernet_layer[0])
+				dest_ip       = socket.inet_ntoa(arp_layer[8])
+				
+				
+				# Packet Information
+				#
+				#
+				#
+				#
+				print()
+				
+				count = count + 1
+				print("Packet {0}".format(count))
+				print()
+				
+				print("****************_ETHERNET_FRAME_****************")
+				
+				print("Dest MAC        :", dest_mac)
+				print("Source MAC      :", source_mac)
+				print("Type            :", ethernet_type)
+				
+				print("******************_ARP_HEADER_******************")
+				
+				print("Hardware type   :", hardware_type)
+				print("Protocol type   :", protocol_type)
+				print("Hardware size   :", hardware_size)
+				print("Protocol size   :", protocol_size)
+				print("Opcode          :", opcode)
+				print("Source MAC      :", source_mac)
+				print("Source IP       :", source_ip)
+				print("Dest MAC        :", dest_mac)
+				print("Dest IP         :", dest_ip)
+				
+				print("*************************************************")
+				
+				print()
+				
+				# if ethernet_type == "0806":
 			
 		except:
 			pass
