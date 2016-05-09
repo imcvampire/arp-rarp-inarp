@@ -2,13 +2,14 @@ import socket
 import struct
 import binascii
 import netifaces as ni
+import arp_core
 
 
 
 if __name__ == "__main__":
 	
 	count = 0
-	
+
 	# RawSocket
 	#
 	#
@@ -97,8 +98,6 @@ if __name__ == "__main__":
 				print("*************************************************")
 				
 				print()
-				
-				# if ethernet_type == "0806":
 			
 		except:
 			pass
