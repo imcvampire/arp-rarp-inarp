@@ -1,8 +1,10 @@
+#!/usr/bin/python3
+
 import socket
 import struct
 import binascii
 import netifaces as ni
-
+import arp_core
 
 
 if __name__ == "__main__":
@@ -14,8 +16,8 @@ if __name__ == "__main__":
 	#
 	rawSocket = socket.socket(socket.AF_PACKET, socket.SOCK_RAW, socket.htons(0x0003))
 	
-	while True:
-		try:
+	try:
+		while True:
 			# Receive packet
 			#
 			#
@@ -98,7 +100,33 @@ if __name__ == "__main__":
 				
 				print()
 				
-				# if ethernet_type == "0806" or ethernet_type == "8035":
+				# ARP Request Filter
+				#
+				#
+				#
+				if opcode == "1":
+					
+					# Network Interfaces
+					#
+					#
+					#
+					network_interfaces = arp_core.Interfaces()
+					
+					for network_interface in network_interfaces:
+						
+						# MAC Addresses
+						#
+						#
+						#
+						interface_ip_addresses = arp_core.InterfaceMacAddresses(network_interface)
+						
+						if target_ip in interface_ip_addresses:
+							
+							# Send reply packet
+							#
+							#
+							#
+							arp_core.SendArpReplyPacket()
 			
-		except:
-			pass
+	except:
+		pass
