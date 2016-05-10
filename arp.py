@@ -7,4 +7,4 @@ if __name__ == "__main__":
 	
 	for arg in sys.argv:
 		if arg[0:2] == "-a":
-			arp.SendArpRequestPacket(arg[2:len(arg)])
+			arp.SendArpRequestPacket(arg[2:])

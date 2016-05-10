@@ -11,7 +11,7 @@ import binascii
 #
 class Type:
 	Arp  = bytes.fromhex("0806")
-	RArp = bytes.fromhex("8035")
+	RArp = bytes.fromhex("0806")
 
 class HardwareType:
 	Ethernet   = bytes.fromhex("0001")
@@ -180,51 +180,6 @@ def CreateRArpReplyPacket(sender_mac_address, sender_proto_address, target_mac_a
 
 
 
-# InARP
-def CreateInArpRequestPacket(protocol_size, sender_mac_address, sender_proto_address, target_mac_address, target_proto_address):
-
-	# Ethernet Layer
-	packet = bytes.fromhex(target_mac_address.replace(":", ""))
-	packet += bytes.fromhex(sender_mac_address.replace(":", " "))
-	packet += Type.Arp
-	
-	# Arp Layer
-	packet += HardwareType.Ethernet
-	packet += ProtocolType.IPv4
-	packet += HardwareSize.MAC
-	packet += ProtocolSize.IPv4
-	packet += Opcode.RArpRequest
-	
-	packet += bytes.fromhex(sender_mac_address.replace(":", " "))
-	packet += socket.inet_aton(sender_proto_address)
-	packet += bytes.fromhex(target_mac_address.replace(":", " "))
-	packet += socket.inet_aton(target_proto_address)
-	
-	return
-	
-def CreateInArpReplyPacket(protocol_size, sender_mac_address, sender_proto_address, target_mac_address, target_proto_address):
-
-	# Ethernet Layer
-	packet = bytes.fromhex(target_mac_address.replace(":", ""))
-	packet += bytes.fromhex(sender_mac_address.replace(":", " "))
-	packet += Type.Arp
-	
-	# Arp Layer
-	packet += HardwareType.Ethernet
-	packet += ProtocolType.IPv4
-	packet += HardwareSize.MAC
-	packet += ProtocolSize.IPv4
-	packet += Opcode.RArpReply
-	
-	packet += bytes.fromhex(sender_mac_address.replace(":", " "))
-	packet += socket.inet_aton(sender_proto_address)
-	packet += bytes.fromhex(target_mac_address.replace(":", " "))
-	packet += socket.inet_aton(target_proto_address)
-	
-	return
-
-
-
 # Socket
 #
 #
@@ -258,6 +213,12 @@ def SendArpRequestPacket(target_ip_address = None):
 	
 	if network_interfaces is not None:
 		for network_interface in network_interfaces:
+			
+			# Ignore 'lo'
+			#
+			#
+			if network_interface == 'lo':
+				continue
 			
 			# Interface MAC Address
 			#
@@ -304,6 +265,12 @@ def SendRArpRequestPacket(target_mac_address):
 	if network_interfaces is not None:
 		for network_interface in network_interfaces:
 			
+			# Ignore 'lo'
+			#
+			#
+			if network_interface == 'lo':
+				continue
+				
 			# Interface MAC Address
 			#
 			#
@@ -354,6 +321,12 @@ def SendInArpRequestPacket():
 	if network_interfaces is not None:
 		for network_interface in network_interfaces:
 			
+			# Ignore 'lo'
+			#
+			#
+			if network_interface == 'lo':
+				continue
+				
 			# Interface MAC Address
 			#
 			#
