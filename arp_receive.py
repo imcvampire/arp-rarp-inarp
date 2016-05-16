@@ -62,9 +62,9 @@ if __name__ == "__main__":
 					hardware_size = binascii.hexlify(arp_layer[2]).decode('ascii')
 					protocol_size = binascii.hexlify(arp_layer[3]).decode('ascii')
 					opcode        = binascii.hexlify(arp_layer[4]).decode('ascii')
-					sender_mac    = "%x:%x:%x:%x:%x:%x" % struct.unpack("BBBBBB",ethernet_layer[5])
+					sender_mac    = "%x:%x:%x:%x:%x:%x" % struct.unpack("BBBBBB",arp_layer[5])
 					sender_ip     = socket.inet_ntoa(arp_layer[6])
-					target_mac    = "%x:%x:%x:%x:%x:%x" % struct.unpack("BBBBBB",ethernet_layer[7])
+					target_mac    = "%x:%x:%x:%x:%x:%x" % struct.unpack("BBBBBB",arp_layer[7])
 					target_ip     = socket.inet_ntoa(arp_layer[8])
 					
 					
@@ -149,30 +149,6 @@ if __name__ == "__main__":
 			except Exception as e:
 				print()
 				print(e)
-				
-				count = count + 1
-				print("Packet {0}".format(count))
-				print()
-				
-				print("****************_ETHERNET_FRAME_****************")
-				
-				print("Dest MAC        :", dest_mac)
-				print("Source MAC      :", source_mac)
-				print("Type            :", ethernet_type)
-				
-				print("******************_ARP_HEADER_******************")
-				
-				print("Hardware type   :", hardware_type)
-				print("Protocol type   :", protocol_type)
-				print("Hardware size   :", hardware_size)
-				print("Protocol size   :", protocol_size)
-				print("Opcode          :", opcode)
-				print("Source MAC      :", source_mac)
-				print("Source IP       :", source_ip)
-				print("Dest MAC        :", dest_mac)
-				print("Dest IP         :", dest_ip)
-				
-				print("*************************************************")
 				
 				print()
 			
