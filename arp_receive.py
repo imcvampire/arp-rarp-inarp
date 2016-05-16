@@ -113,10 +113,11 @@ def main():
 							#
 							interfaces = arp_core.Interfaces()
 							
-							print("Send Reply To:")
+							print("Send Reply:")
 							
 							print()
 							print("=================================================")
+							print("Sender IP       :", target_ip)
 							print("Target MAC      :", sender_mac)
 							print("Target IP       :", sender_ip)
 							print("=================================================")
