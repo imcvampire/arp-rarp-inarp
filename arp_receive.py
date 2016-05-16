@@ -106,44 +106,34 @@ if __name__ == "__main__":
 					#
 					#
 					if opcode == "1":
-						
-						# Network Interfaces
-						#
-						#
-						#
-						network_interfaces = arp_core.Interfaces()
-						
-						for network_interface in network_interfaces:
-							
-							# MAC Addresses
-							#
-							#
-							#
-							interface_ip_addresses = arp_core.InterfaceMacAddresses(network_interface)
-							
-							if target_ip in interface_ip_addresses:
+						network_interfaces = Interfaces()
+	
+						if network_interfaces is not None:
+							for network_interface in network_interfaces:
 								
-								# Send reply packet
+								# Ignore 'lo'
+								#
+								#
+								if network_interface == 'lo':
+									continue
+								# Interface MAC Address
 								#
 								#
 								#
-								arp_core.SendArpReplyPacket(sender_mac, sender_ip)	
-							#
-							#
-							#
-							# MAC Addresses	
-						#
-						#
-						#
-						# Network Interfaces
-					#
-					#
-					#
-					# ARP Request Filter
-				#
-				#	
-				#
-				# ARP packet filter
+								interface_mac_addresses = InterfaceMacAddresses(network_interface)
+								
+								if interface_mac_addresses is not None:
+									for interface_mac_address in interface_mac_addresses:
+										
+										# Interface IP Address
+										#
+										#
+										#
+										interface_ip_addresses = InterfaceIpv4Addresses(network_interface)
+										
+										if interface_ip_addresses == target_ip:
+											arp_core.SendArpReplyPacket(sender_mac, sender_ip)
+								
 			
 			# try:
 			except Exception as e:
