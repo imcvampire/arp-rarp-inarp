@@ -105,22 +105,17 @@ if __name__ == "__main__":
 					#
 					#
 					#
-					if opcode == "1":
-						network_interfaces = Interfaces()
+					if opcode == "0001":
+						network_interfaces = arp_core.Interfaces()
 	
 						if network_interfaces is not None:
 							for network_interface in network_interfaces:
 								
-								# Ignore 'lo'
-								#
-								#
-								if network_interface == 'lo':
-									continue
 								# Interface MAC Address
 								#
 								#
 								#
-								interface_mac_addresses = InterfaceMacAddresses(network_interface)
+								interface_mac_addresses = arp_core.InterfaceMacAddresses(network_interface)
 								
 								if interface_mac_addresses is not None:
 									for interface_mac_address in interface_mac_addresses:
@@ -129,10 +124,12 @@ if __name__ == "__main__":
 										#
 										#
 										#
-										interface_ip_addresses = InterfaceIpv4Addresses(network_interface)
+										interface_ip_addresses = arp_core.InterfaceIpv4Addresses(network_interface)
 										
-										if interface_ip_addresses == target_ip:
-											arp_core.SendArpReplyPacket(sender_mac, sender_ip)
+										if interface_ip_addresses is not None:
+											for interface_ip_address in interface_ip_addresses:
+												if target_ip == interface_ip_address:
+													arp_core.SendArpReplyPacket(sender_mac, sender_ip)
 								
 			
 			# try:
