@@ -253,7 +253,7 @@ def SendArpRequestPacket(target_ip_address = None):
 #
 #
 #
-def SendArpReplyPacket(target_mac_address, target_ip_address):
+def SendArpReplyPacket(sender_ip_address, target_mac_address, target_ip_address):
 	# Network interface
 	#
 	#
@@ -284,16 +284,15 @@ def SendArpReplyPacket(target_mac_address, target_ip_address):
 					#
 					interface_ip_addresses = InterfaceIpv4Addresses(network_interface)
 					
-					if interface_ip_addresses is not None:
-						for interface_ip_address in interface_ip_addresses:
-							
-							# Send ARP Packet
-							#
-							#
-							#
-							packet = CreateArpReplyPacket(interface_mac_address, interface_ip_address, target_mac_address, target_ip_address)
-							
-							SendRawPacket(network_interface, packet)
+					if sender_ip_address in interface_ip_addresses:
+					
+						# Send ARP Packet
+						#
+						#
+						#
+						packet = CreateArpReplyPacket(interface_mac_address, sender_ip_address, target_mac_address, target_ip_address)
+						
+						SendRawPacket(network_interface, packet)
 	
 	return
 	

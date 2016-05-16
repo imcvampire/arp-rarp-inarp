@@ -106,8 +106,14 @@ def main():
 						#
 						#
 						if opcode == "0001":
-							arp_core.SendArpReplyPacket(sender_mac, sender_ip)
-									
+							
+							# Internet Interfaces
+							#
+							#
+							#
+							interfaces = arp_core.Interfaces()
+							
+							arp_core.SendArpReplyPacket(target_ip, sender_mac, sender_ip)
 				
 				# try:
 				except Exception as e:
