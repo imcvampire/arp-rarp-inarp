@@ -291,9 +291,11 @@ def SendArpReplyPacket(target_mac_address, target_ip_address):
 							#
 							#
 							#
-							packet = (interface_mac_address, interface_ip_address, target_mac_address, target_ip_address)
+							packet = CreateArpReplyPacket(interface_mac_address, interface_ip_address, target_mac_address, target_ip_address)
 							
 							SendRawPacket(network_interface, packet)
+	
+	return
 	
 	
 # Send RARP packet
