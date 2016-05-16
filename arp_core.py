@@ -301,7 +301,7 @@ def SendRArpRequestPacket(target_mac_address):
 							SendRawPacket(network_interface, packet)
 							
 	
-return
+	return
 	
 
 # Send InARP packet
