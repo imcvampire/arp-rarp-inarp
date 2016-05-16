@@ -248,6 +248,54 @@ def SendArpRequestPacket(target_ip_address = None):
 	return
 	
 	
+# Send ARP reply 
+#
+#
+#
+#
+def SendArpReplyPacket(target_mac_address, target_ip_address):
+	# Network interface
+	#
+	#
+	#
+	network_interfaces = Interfaces()
+	
+	if network_interfaces is not None:
+		for network_interface in network_interfaces:
+			
+			# Ignore 'lo'
+			#
+			#
+			if network_interface == 'lo':
+				continue
+			
+			# Interface MAC Address
+			#
+			#
+			#
+			interface_mac_addresses = InterfaceMacAddresses(network_interface)
+			
+			if interface_mac_addresses is not None:
+				for interface_mac_address in interface_mac_addresses:
+					
+					# Interface IP Address
+					#
+					#
+					#
+					interface_ip_addresses = InterfaceIpv4Addresses(network_interface)
+					
+					if interface_ip_addresses is not None:
+						for interface_ip_address in interface_ip_addresses:
+							
+							# Send ARP Packet
+							#
+							#
+							#
+							packet = CreateArpReplyPacket(interface_mac_address, interface_ip_address, target_mac_address, target_ip_address)
+							
+							SendRawPacket(network_interface, packet)
+	
+	
 # Send RARP packet
 #
 #

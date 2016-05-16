@@ -62,9 +62,9 @@ if __name__ == "__main__":
 					hardware_size = binascii.hexlify(arp_layer[2]).decode('ascii')
 					protocol_size = binascii.hexlify(arp_layer[3]).decode('ascii')
 					opcode        = binascii.hexlify(arp_layer[4]).decode('ascii')
-					sender_mac    = "%x:%x:%x:%x:%x:%x" % struct.unpack("BBBBBB",ethernet_layer[0])
+					sender_mac    = "%x:%x:%x:%x:%x:%x" % struct.unpack("BBBBBB",ethernet_layer[5])
 					sender_ip     = socket.inet_ntoa(arp_layer[6])
-					target_mac    = "%x:%x:%x:%x:%x:%x" % struct.unpack("BBBBBB",ethernet_layer[0])
+					target_mac    = "%x:%x:%x:%x:%x:%x" % struct.unpack("BBBBBB",ethernet_layer[7])
 					target_ip     = socket.inet_ntoa(arp_layer[8])
 					
 					
@@ -127,7 +127,7 @@ if __name__ == "__main__":
 								#
 								#
 								#
-								arp_core.SendArpReplyPacket()	
+								arp_core.SendArpReplyPacket(sender_mac, sender_ip)	
 							#
 							#
 							#
