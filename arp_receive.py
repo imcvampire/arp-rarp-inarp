@@ -76,16 +76,16 @@ def main():
 						print()
 						
 						count = count + 1
-						print("Packet {0}".format(count))
+						print("Packet {0}:".format(count))
 						print()
 						
-						print("****************_ETHERNET_FRAME_****************")
+						print("================_ETHERNET_FRAME_=================")
 						
 						print("Dest MAC        :", dest_mac)
 						print("Source MAC      :", source_mac)
 						print("Type            :", ethernet_type)
 						
-						print("******************_ARP_HEADER_******************")
+						print("==================_ARP_HEADER_===================")
 						
 						print("Hardware type   :", hardware_type)
 						print("Protocol type   :", protocol_type)
@@ -97,7 +97,7 @@ def main():
 						print("Target MAC      :", target_mac)
 						print("Target IP       :", target_ip)
 						
-						print("*************************************************")
+						print("=================================================")
 						
 						print()
 						
@@ -112,6 +112,14 @@ def main():
 							#
 							#
 							interfaces = arp_core.Interfaces()
+							
+							print("Send Reply To:")
+							
+							print()
+							print("=================================================")
+							print("Target MAC      :", sender_mac)
+							print("Target IP       :", sender_ip)
+							print("=================================================")
 							
 							arp_core.SendArpReplyPacket(target_ip, sender_mac, sender_ip)
 				
