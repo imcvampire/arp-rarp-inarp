@@ -202,7 +202,7 @@ def SendRawPacket(network_interface, packet):
 #
 #
 #
-def SendArp(target_ip_address = None):
+def SendArpRequestPacket(target_ip_address = None):
 
 	# Network interface
 	#
