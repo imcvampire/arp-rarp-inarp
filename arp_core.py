@@ -141,7 +141,7 @@ def CreateRArpRequestPacket(sender_mac_address, sender_proto_address, target_mac
 	# Ethernet Layer
 	packet  = bytes.fromhex("ff ff ff ff ff ff")
 	packet += bytes.fromhex(sender_mac_address.replace(":", " "))
-	packet += Type.RArp
+	packet += Type.Arp
 	
 	# Arp Layer
 	packet += HardwareType.Ethernet
@@ -179,7 +179,6 @@ def CreateRArpReplyPacket(sender_mac_address, sender_proto_address, target_mac_a
 	return packet
 
 
-
 # Socket
 #
 #
@@ -203,7 +202,7 @@ def SendRawPacket(network_interface, packet):
 #
 #
 #
-def SendArpRequestPacket(target_ip_address = None):
+def SendArp(target_ip_address = None):
 
 	# Network interface
 	#
@@ -302,7 +301,7 @@ def SendRArpRequestPacket(target_mac_address):
 							SendRawPacket(network_interface, packet)
 							
 	
-	return
+return
 	
 
 # Send InARP packet
@@ -354,4 +353,3 @@ def SendInArpRequestPacket():
 							SendRawPacket(network_interface, packet)
 							
 	return
-	
