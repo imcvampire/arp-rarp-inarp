@@ -12,6 +12,7 @@ import binascii
 class Type:
 	Arp  = bytes.fromhex("0806")
 	RArp = bytes.fromhex("0806")
+	RArp2 = bytes.fromhex("8035")
 
 class HardwareType:
 	Ethernet   = bytes.fromhex("0001")
@@ -141,7 +142,7 @@ def CreateRArpRequestPacket(sender_mac_address, sender_proto_address, target_mac
 	# Ethernet Layer
 	packet  = bytes.fromhex("ff ff ff ff ff ff")
 	packet += bytes.fromhex(sender_mac_address.replace(":", " "))
-	packet += Type.Arp
+	packet += Type.RArp
 	
 	# Arp Layer
 	packet += HardwareType.Ethernet
@@ -160,7 +161,7 @@ def CreateRArpRequestPacket(sender_mac_address, sender_proto_address, target_mac
 def CreateRArpReplyPacket(sender_mac_address, sender_proto_address, target_mac_address, target_proto_address):
 
 	# Ethernet Layer
-	packet = bytes.fromhex(target_mac_address.replace(":", ""))
+	packet = bytes.fromhex(target_mac_address.replace(":", " "))
 	packet += bytes.fromhex(sender_mac_address.replace(":", " "))
 	packet += Type.RArp
 	
@@ -302,7 +303,7 @@ def SendArpReplyPacket(sender_ip_address, target_mac_address, target_ip_address)
 #
 #
 #
-def SendRArpRequestPacket(target_mac_address):
+def SendRArpRequestPacket():
 
 	# Network interface
 	#
@@ -341,11 +342,7 @@ def SendRArpRequestPacket(target_mac_address):
 							#
 							#
 							#
-							if target_mac_address is None:
-								packet = CreateRArpRequestPacket(interface_mac_address, "0.0.0.0", interface_mac_address, "0.0.0.0")
-								
-							else:
-								packet = CreateRArpRequestPacket(interface_mac_address, "0.0.0.0", target_mac_address, "0.0.0.0")
+							packet = CreateRArpRequestPacket(interface_mac_address, "0.0.0.0", "ff:ff:ff:ff:ff:ff", "0.0.0.0")
 							
 							SendRawPacket(network_interface, packet)
 							

@@ -22,7 +22,7 @@ def CheckMac(mac_add):
 def main():
 	if __name__ == "__main__":
 	
-		count = 1
+		count = 0
 		
 		rawSocket = socket.socket(socket.AF_PACKET, socket.SOCK_RAW, socket.htons(0x0003))
 		while True:
@@ -37,7 +37,7 @@ def main():
 			
 			ethernet_type = binascii.hexlify(ethernet_layer[2]).decode('ascii')
 
-			if ethernet_type == "0806" or binascii.hexlify(arp_layer[4]).decode('ascii') == "0003":
+			if (ethernet_type == "0806" or ethernet_type == "8035") and binascii.hexlify(arp_layer[4]).decode('ascii') == "0003":
 				
 				# Ethernet Layer
 				dest_mac   = "%02x:%02x:%02x:%02x:%02x:%02x" % struct.unpack("BBBBBB", ethernet_layer[0])
@@ -94,4 +94,4 @@ def main():
 				print()
 					
 			
-			
+main()			
