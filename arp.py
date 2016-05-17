@@ -37,7 +37,6 @@ def main():
 			receive_thread.join()
 		#
 		#
-		#
 		# if arg[0:2] == "-a":
 		
 	return
