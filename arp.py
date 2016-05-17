@@ -8,7 +8,7 @@ import binascii
 import time
 import threading
 
-	
+
 
 def main():
 	
@@ -57,14 +57,18 @@ def receiver(request_ip):
 		while True:
 			# Receive packet
 			#
+			#
 			packet = rawSocket.recvfrom(2048)
 			
+			
 			# Unpack Ethernet header
+			#
 			#		
 			ethernet_header = packet[0][0:14]
 			ethernet_layer = struct.unpack("!6s6s2s", ethernet_header)
 			
 			# ARP packet filter
+			#
 			#
 			ethernet_type = binascii.hexlify(ethernet_layer[2]).decode('ascii')
 			if ethernet_type == "0806":
@@ -89,6 +93,10 @@ def receiver(request_ip):
 				target_mac    = "%02x:%02x:%02x:%02x:%02x:%02x" % struct.unpack("BBBBBB",arp_layer[7])
 				target_ip     = socket.inet_ntoa(arp_layer[8])
 				
+				
+				# Display output
+				#
+				#
 				print()
 				if opcode == "0002" and sender_ip == request_ip:
 					
