@@ -103,7 +103,7 @@ def receiver(request_ip):
 					print("=================================================")
 					print("IP                     MAC")
 					print()
-					print("{0}            {1}".format(request_ip, sender_mac))
+					print("{0:<15}        {1}".format(request_ip, sender_mac))
 					print("=================================================")
 					print()
 					break
