@@ -20,6 +20,9 @@ def main():
 			
 			request_ip = arg[2:]
 			
+			request_ip = request_ip.replace('"', " ")
+			request_ip = request_ip.replace("'", " ")
+			
 			# Create Receive Thread
 			#
 			#
@@ -96,9 +99,8 @@ def receiver(request_ip):
 				# Display output
 				#
 				#
-				print()
 				if opcode == "0002" and sender_ip == request_ip:
-					
+					print()
 					print("=================================================")
 					print("IP                     MAC")
 					print()
