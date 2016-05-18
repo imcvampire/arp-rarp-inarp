@@ -12,29 +12,16 @@ import argparse
 
 
 def main():
-	
-	parser = argparse.ArgumentParser()
-	
-	parser.add_argument("-a", dest="ip", help="target ip address")
-	
-	result = parser.parse_args()
-	
-	
-	# Send ARP Request Packets
-	#
-	#
-	request_ip = result.ip
-	
 	# Create Receive Thread
 	#
 	#
-	receive_thread = threading.Thread(target = receiver, args = (request_ip, ))
+	receive_thread = threading.Thread(target = receiver)
 	receive_thread.start()
 	
 	# Send ARP Request Packet
 	#
 	#
-	arp_core.SendArpRequestPacket(request_ip)
+	arp_core.SendRArpRequestPacket()
 	
 	# Join Thread
 	#
@@ -44,7 +31,7 @@ def main():
 	return
 
 
-def receiver(request_ip):
+def receiver():
 	
 	# Receive ARP Reply
 	#
@@ -99,12 +86,12 @@ def receiver(request_ip):
 					# Display output
 					#
 					#
-					if opcode == "0002" and sender_ip == request_ip:
+					if opcode == "0004":
 						print()
 						print("=================================================")
 						print("IP                     MAC")
 						print()
-						print("{0:<15}        {1}".format(request_ip, sender_mac))
+						print("{0:<15}        {1}".format(target_ip, target_mac))
 						print("=================================================")
 						print()
 						break
@@ -116,11 +103,11 @@ def receiver(request_ip):
 					print("=================================================")
 					print()
 					break
-			
 			except Exception as e:
 				print()
 				print(e)
 				print()
+				
 		#
 		#
 		#
