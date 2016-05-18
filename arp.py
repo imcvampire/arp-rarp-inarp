@@ -1,10 +1,13 @@
 #!/usr/bin/python3
 
-import sys
-import arp_core as arp
+import argparse
+import arp_core
 	
 if __name__ == "__main__":
 	
-	for arg in sys.argv:
-		if arg[0:2] == "-a":
-			arp.SendArpRequestPacket(arg[2:])
+	parser = argparse.ArgumentParser()
+	
+	parser.add_argument("-a", dest="ip", help="target ip address")
+	
+	args = parser.parse_args()
+	arp_core.SendArpRequestPacket(args.ip)
