@@ -1,8 +1,9 @@
-# it3080-mmt
+# ARP - RARP - InARP packet craft and send
+------------------------------------------------
+
+# Problem:
+Craft, receive, send and reply ARP, RARP and InARP packet.
 
 Computer networking project in class IT3080 in HUST
 
----------------------------------------------------
-
-Bài tập lớn học phần it3080 - Mạng máy tính
 
