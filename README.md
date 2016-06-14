@@ -1,4 +1,4 @@
-# ARP - RARP - InARP packet craft and send
+# ARP - RARP - InARP
 ------------------------------------------------
 
 # Problem:
