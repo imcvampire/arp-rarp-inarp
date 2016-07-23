@@ -1,0 +1,6 @@
+{
+  "name": "IT3080",
+  "tagline": "Computer networking project in class IT3080 in HUST",
+  "body": "### Problem:\r\n\r\nCraft, receive, send and reply ARP, RARP and InARP packet.\r\n\r\n### Authors and Contributors\r\n@clitetailor and @imcvampire",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
